@@ -40,6 +40,14 @@ export default function App() {
             box-sizing: border-box;
           }
 
+          html, body, #root {
+            min-height: 100vh;
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+            background: #070607;
+          }
+
           body {
             margin: 0;
             font-family: var(--font);
@@ -47,9 +55,12 @@ export default function App() {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.45;
+            overflow-x: hidden;
+            background: #070607;
           }
 
           .container {
+            width: 100%;
             max-width: var(--maxw);
             margin: 0 auto;
             padding: 0 20px;
@@ -69,6 +80,8 @@ export default function App() {
             align-items: center;
             justify-content: space-between;
             padding: 14px 0;
+            flex-wrap: wrap;
+            gap: 14px;
           }
 
           .brand {
@@ -77,6 +90,22 @@ export default function App() {
             gap: 12px;
             text-decoration: none;
             color: inherit;
+            min-width: 0;
+          }
+
+          nav {
+            flex: 1 1 auto;
+            min-width: 0;
+          }
+
+          nav a {
+            color: var(--muted);
+            text-decoration: none;
+            margin-left: 18px;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           .logo-mark {
@@ -395,6 +424,14 @@ export default function App() {
             nav {
               display: none;
             }
+            .cta-btn {
+              min-width: 0;
+              width: auto;
+              flex: 0 1 auto;
+            }
+            .brand {
+              min-width: 0;
+            }
           }
 
           @media (max-width: 480px) {
@@ -404,6 +441,21 @@ export default function App() {
             .logo-mark {
               width: 40px;
               height: 40px;
+            }
+            nav {
+              justify-content: center;
+              width: 100%;
+            }
+            nav a {
+              font-size: 14px;
+              margin-left: 8px;
+              margin-right: 8px;
+            }
+            .nav {
+              gap: 10px;
+            }
+            .cta-btn {
+              display: none;
             }
           }
         ` }} />

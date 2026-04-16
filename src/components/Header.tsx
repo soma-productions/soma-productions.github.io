@@ -94,100 +94,21 @@ export function Header() {
             { path: '/processo', label: 'Processo' },
             { path: '/portfolio', label: 'Portfólio' },
             { path: '/contato', label: 'Contato' }
-          ].map((item) => {
-            const isActive = location.pathname === item.path;
-            const [isHovered, setIsHovered] = useState(false);
-            
-            return (
-              <Link 
-                key={item.path}
-                to={item.path}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                style={{ 
-                  position: 'relative', 
-                  textDecoration: 'none',
-                  color: isActive ? 'var(--purple)' : 'var(--muted)',
-                  marginLeft: '18px',
-                  transition: 'color 0.2s ease',
-                }}
-              >
-                {/* Texto com animação de levitação */}
-                <motion.span
-                  initial={false}
-                  animate={{
-                    scale: isHovered ? 1.1 : 1,
-                    y: isHovered ? -2 : 0
-                  }}
-                  transition={{
-                    scale: { duration: 0.2, ease: "easeInOut" },
-                    y: { duration: 0.2, ease: "easeInOut" }
-                  }}
-                  style={{
-                    display: 'inline-block',
-                    position: 'relative',
-                    zIndex: 2
-                  }}
-                >
-                  {item.label}
-                </motion.span>
-                
-                {/* Efeito de fundo animado no hover */}
-                {isHovered && !isActive && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.2 }}
-                    style={{
-                      position: 'absolute',
-                      top: '-6px',
-                      left: '-8px',
-                      right: '-8px',
-                      bottom: '-6px',
-                      background: 'rgba(140, 82, 255, 0.1)',
-                      borderRadius: '8px',
-                      zIndex: 1
-                    }}
-                  />
-                )}
-                
-                {/* Linha de sublinhado animada para página ativa */}
-                {isActive && (
-                  <motion.div
-                    layoutId="navUnderline"
-                    initial={false}
-                    animate={{
-                      scaleX: isHovered ? 1.1 : 1,
-                      y: isHovered ? 2 : 0
-                    }}
-                    transition={{
-                      scaleX: { duration: 0.2, ease: "easeInOut" },
-                      y: { duration: 0.2, ease: "easeInOut" }
-                    }}
-                    style={{
-                      position: 'absolute',
-                      bottom: '-4px',
-                      left: '-4px',
-                      right: '-4px',
-                      height: '2px',
-                      background: 'linear-gradient(90deg, var(--purple), var(--purple-2))',
-                      borderRadius: '2px',
-                      transformOrigin: 'center',
-                    }}
-                  />
-                )}
-              </Link>
-            );
-          })}
+          ].map((item) => (
+            <HeaderNavLink
+              key={item.path}
+              item={item}
+              isActive={location.pathname === item.path}
+            />
+          ))}
         </nav>
-        
+
         <div>
           <Link to="/contato">
-            <motion.button 
+            <motion.button
               className="cta-btn"
               initial={false}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 y: -2,
                 transition: { duration: 0.2 }
@@ -198,13 +119,12 @@ export function Header() {
                 overflow: 'hidden'
               }}
             >
-              {/* Efeito de partículas no hover */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.5 }}
-                whileHover={{ 
+                whileHover={{
                   opacity: [0, 0.3, 0],
                   scale: [0.5, 1, 1.5],
-                  transition: { 
+                  transition: {
                     duration: 0.6,
                     times: [0, 0.5, 1]
                   }
@@ -221,12 +141,91 @@ export function Header() {
                   pointerEvents: 'none'
                 }}
               />
-              
+
               Marcar Reunião
             </motion.button>
           </Link>
         </div>
       </div>
     </header>
+  );
+}
+
+function HeaderNavLink({ item, isActive }: { item: { path: string; label: string }; isActive: boolean }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <Link
+      to={item.path}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        position: 'relative',
+        textDecoration: 'none',
+        color: isActive ? 'var(--purple)' : 'var(--muted)',
+        marginLeft: '18px',
+        transition: 'color 0.2s ease',
+        minWidth: 0,
+      }}
+    >
+      <motion.span
+        initial={false}
+        animate={{
+          scale: isHovered ? 1.1 : 1,
+          y: isHovered ? -2 : 0,
+        }}
+        transition={{
+          scale: { duration: 0.2, ease: 'easeInOut' },
+          y: { duration: 0.2, ease: 'easeInOut' },
+        }}
+        style={{ display: 'inline-block', position: 'relative', zIndex: 2 }}
+      >
+        {item.label}
+      </motion.span>
+
+      {!isActive && isHovered && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.2 }}
+          style={{
+            position: 'absolute',
+            top: '-6px',
+            left: '-8px',
+            right: '-8px',
+            bottom: '-6px',
+            background: 'rgba(140, 82, 255, 0.1)',
+            borderRadius: '8px',
+            zIndex: 1,
+          }}
+        />
+      )}
+
+      {isActive && (
+        <motion.div
+          layoutId="navUnderline"
+          initial={false}
+          animate={{
+            scaleX: isHovered ? 1.1 : 1,
+            y: isHovered ? 2 : 0,
+          }}
+          transition={{
+            scaleX: { duration: 0.2, ease: 'easeInOut' },
+            y: { duration: 0.2, ease: 'easeInOut' },
+          }}
+          style={{
+            position: 'absolute',
+            bottom: '-4px',
+            left: '-4px',
+            right: '-4px',
+            height: '2px',
+            background: 'linear-gradient(90deg, var(--purple), var(--purple-2))',
+            borderRadius: '2px',
+            transformOrigin: 'center',
+          }}
+        />
+      )}
+    </Link>
   );
 }
